@@ -1,9 +1,17 @@
 package redhoundlabs.fantasyharvest;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.graphics.Point;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Display;
+import android.view.View;
+import android.view.Window;
+
+import java.lang.reflect.Method;
 
 // SpaceInvadersActivity is the entry point to the game.
 // It will handle the lifecycle of the game by calling
@@ -21,13 +29,51 @@ public class Game extends Activity {
 
         // Get a Display object to access screen details
         Display display = getWindowManager().getDefaultDisplay();
+        int realWidth;
+        int realHeight;
+
+        if (Build.VERSION.SDK_INT >= 17){
+            //new pleasant way to get real metrics
+            DisplayMetrics realMetrics = new DisplayMetrics();
+            display.getRealMetrics(realMetrics);
+            realWidth = realMetrics.widthPixels;
+            realHeight = realMetrics.heightPixels;
+
+        } else if (Build.VERSION.SDK_INT >= 14) {
+            //reflection for this weird in-between time
+            try {
+                Method mGetRawH = Display.class.getMethod("getRawHeight");
+                Method mGetRawW = Display.class.getMethod("getRawWidth");
+                realWidth = (Integer) mGetRawW.invoke(display);
+                realHeight = (Integer) mGetRawH.invoke(display);
+            } catch (Exception e) {
+                //this may not be 100% accurate, but it's all we've got
+                realWidth = display.getWidth();
+                realHeight = display.getHeight();
+                Log.e("Display Info", "Couldn't use reflection to get the real display metrics.");
+            }
+
+        } else {
+            //This should be close, as lower API devices should not have window navigation bars
+            realWidth = display.getWidth();
+            realHeight = display.getHeight();
+        }
         // Load the resolution into a Point object
         Point size = new Point();
         display.getSize(size);
 
         // Initialize gameView and set it as the view
-        gameView = new GameView(this, size.x, size.y);
+        gameView = new GameView(this, realWidth, realHeight);
         setContentView(gameView);
+
+        //gameView.setSystemUiVisibility();
+        gameView.setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
 
     }
 

@@ -61,6 +61,9 @@ public class GameView extends SurfaceView implements Runnable {
         screenX = x;
         screenY = y;
 
+        Log.d("X:", Integer.toString(x));
+        Log.d("Y",  Integer.toString(y));
+
         grid = new Grid(context,screenX, screenY);
 
     }
