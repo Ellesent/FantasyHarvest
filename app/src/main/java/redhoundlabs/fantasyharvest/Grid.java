@@ -17,8 +17,8 @@ public class Grid {
 
     public Grid(Context context, int screenX, int screenY)
     {
-        float x = screenX / 32;
-        float y = screenY / 32;
+        float x = 10;
+        float y = 10;
 
         int intX = (int) x;
         int intY = (int) y;
@@ -30,9 +30,26 @@ public class Grid {
 
         for (int i = 0; i < intX; i++)
         {
+
             for (int j = 0; j < intY; j++)
             {
-                Pixel pixel = new Pixel(context, i * 32,j * 32);
+                Pixel pixel;
+                if (i == 0 && j == 0)
+                {
+                    pixel = new Pixel(context, 0, 0, screenX / intX, screenY / intY);
+                }
+                else if (i == 0)
+                {
+                    pixel = new Pixel(context, 0, screenY / intY * j, screenX / intX, screenY / intY);
+                }
+                else if (j == 0)
+                {
+                    pixel = new Pixel(context, screenX /intX * i, 0, screenX / intX, screenY / intY);
+                }
+                else
+                {
+                    pixel = new Pixel(context, screenX /intX * i, screenY / intY * j, screenX / intX, screenY / intY);
+                }
                 grid[i][j] = pixel;
             }
         }

@@ -13,7 +13,8 @@ public class Pixel {
     private Bitmap bitmap;
     float positionX;
     float positionY;
-
+    int length;
+    int height;
     public Bitmap getBitmap(){
         return bitmap;
     }
@@ -26,18 +27,18 @@ public class Pixel {
         return positionY;
     }
 
-    public Pixel(Context context, float positionX, float positionY){
+    public Pixel(Context context, float positionX, float positionY, int length, int height){
 
         bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.pixel);
 
-        int length = 32;
-        int height = 32;
+        this.length = length;
+        this.height = height;
 
         this.positionX = positionX;
         this.positionY = positionY;
 
         // stretch the bitmap to a size appropriate for the screen resolution
-        bitmap = Bitmap.createScaledBitmap(bitmap, length, height, false);
+        bitmap = Bitmap.createScaledBitmap(bitmap, this.length, this.height, false);
 
     }
 }
