@@ -1,7 +1,10 @@
 package redhoundlabs.fantasyharvest;
-
+/*
+Main class
+ */
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
@@ -13,7 +16,7 @@ import android.view.Window;
 
 import java.lang.reflect.Method;
 
-// SpaceInvadersActivity is the entry point to the game.
+// the entry point to the game.
 // It will handle the lifecycle of the game by calling
 // methods of gameView when prompted to so by the OS.
 public class Game extends Activity {
@@ -55,8 +58,11 @@ public class Game extends Activity {
 
         } else {
             //This should be close, as lower API devices should not have window navigation bars
-            realWidth = display.getWidth();
-            realHeight = display.getHeight();
+
+            Point size = new Point();
+            display.getSize(size);
+            realWidth = size.x;
+            realHeight = size.y;
         }
         // Load the resolution into a Point object
         Point size = new Point();

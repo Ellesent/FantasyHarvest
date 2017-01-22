@@ -15,18 +15,23 @@ public class Grid {
         return grid;
     }
 
+    int pixelWidth;
+    int pixelHeight;
+
+    public int getPixelWidth(){return pixelWidth;}
+    public int getPixelHeight(){return pixelHeight;}
+
     public Grid(Context context, int screenX, int screenY)
     {
-        float x = 10;
-        float y = 10;
+        float x = 40;
+        float y = 20;
 
         int intX = (int) x;
         int intY = (int) y;
         grid  = new Pixel[intX][intY];
 
-
-
-
+        pixelWidth = screenX / intX;
+        pixelHeight = screenY / intY;
 
         for (int i = 0; i < intX; i++)
         {
@@ -36,19 +41,19 @@ public class Grid {
                 Pixel pixel;
                 if (i == 0 && j == 0)
                 {
-                    pixel = new Pixel(context, 0, 0, screenX / intX, screenY / intY);
+                    pixel = new Pixel(context, 0, 0, pixelWidth, pixelHeight);
                 }
                 else if (i == 0)
                 {
-                    pixel = new Pixel(context, 0, screenY / intY * j, screenX / intX, screenY / intY);
+                    pixel = new Pixel(context, 0, screenY / intY * j, pixelWidth, pixelHeight);
                 }
                 else if (j == 0)
                 {
-                    pixel = new Pixel(context, screenX /intX * i, 0, screenX / intX, screenY / intY);
+                    pixel = new Pixel(context, screenX /intX * i, 0, pixelWidth, pixelHeight);
                 }
                 else
                 {
-                    pixel = new Pixel(context, screenX /intX * i, screenY / intY * j, screenX / intX, screenY / intY);
+                    pixel = new Pixel(context, screenX /intX * i, screenY / intY * j, pixelWidth, pixelHeight);
                 }
                 grid[i][j] = pixel;
             }
