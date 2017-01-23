@@ -135,7 +135,7 @@ public class GameView extends SurfaceView implements Runnable {
                 }
             }
 
-            canvas.drawBitmap(player.getBitmap(), player.getPosition().getPositionX(), player.getPosition().getPositionY(), paint);
+            canvas.drawBitmap(player.getBitmap(), player.getPosition().getPositionX(), player.getPosition().getPositionY() - player.height, paint);
 
             // Change the brush color
             paint.setColor(Color.argb(255,  249, 129, 0));

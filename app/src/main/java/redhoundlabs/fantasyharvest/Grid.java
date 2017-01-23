@@ -1,6 +1,7 @@
 package redhoundlabs.fantasyharvest;
 
 import android.content.Context;
+import android.graphics.Point;
 
 /**
  * Created by cool- on 1/16/2017.
@@ -58,6 +59,28 @@ public class Grid {
                 grid[i][j] = pixel;
             }
         }
+    }
+
+    public Point GetIndexOfPixel(Pixel pixel)
+    {
+        if (grid != null)
+        {
+            for (int i = 0; i < grid.length; i++) {
+                for (int j = 0; j < grid[0].length; j++) {
+
+                    if (grid[i][j] != null && grid[i][j] ==  pixel)
+                    {
+                        return new Point(i,j);
+                    }
+
+                }
+            }
+        }
+        else
+        {
+            throw new NullPointerException();
+        }
+        return null;
     }
 
 }

@@ -13,6 +13,8 @@ public class Player {
     int length;
     int height;
 
+    float bottomMiddle;
+
     public Bitmap getBitmap()
     {
         return bitmap;
@@ -23,6 +25,10 @@ public class Player {
         return position;
     }
 
+    public float getBottomMiddle() {return bottomMiddle;}
+
+    public int getHeight(){return height;}
+
     public Player(Context context, Pixel startPosition, int length, int height)
     {
         bitmap = BitmapFactory.decodeResource(context.getResources(),R.drawable.player);
@@ -30,6 +36,8 @@ public class Player {
 
         this.length = length;
         this.height = height;
+
+        bottomMiddle = length / 2;
 
         bitmap = Bitmap.createScaledBitmap(bitmap, this.length, this.height, false);
 
