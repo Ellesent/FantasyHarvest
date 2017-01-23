@@ -68,11 +68,11 @@ public class GameView extends SurfaceView implements Runnable {
 
 
 
-        grid = new Grid(context,screenX, screenY);
+        grid = new Grid(context,screenX, screenY, 6, 6);
         gridWidth = grid.getGrid().length;
         gridHeight = grid.getGrid()[0].length;
 
-        player = new Player(context, grid.getGrid()[gridWidth / 2][gridHeight / 2], grid.getPixelWidth(), grid.getPixelHeight() * 2);
+        player = new Player(context, grid.getCenter(), grid.getPixelWidth(), grid.getPixelHeight() * 2);
 
     }
 
@@ -127,15 +127,15 @@ public class GameView extends SurfaceView implements Runnable {
             paint.setColor(Color.argb(255,  255, 255, 255));
 
            //draw stuff
-            for (int i = 0; i < gridWidth; i++)
+            for (int i = grid.GetIndexOfPixel(grid.topLeft).x; i <= grid.GetIndexOfPixel(grid.topRight).x; i++)
             {
-                for (int j = 0; j < gridHeight; j++)
+                for (int j = grid.GetIndexOfPixel(grid.bottomRight).y; j >= grid.GetIndexOfPixel(grid.topRight).y; j--)
                 {
                     canvas.drawBitmap(grid.getGrid()[i][j].getBitmap(),grid.getGrid()[i][j].getPositionX(),grid.getGrid()[i][j].getPositionY(), paint);
                 }
             }
 
-            canvas.drawBitmap(player.getBitmap(), player.getPosition().getPositionX(), player.getPosition().getPositionY() - player.height, paint);
+            canvas.drawBitmap(player.getBitmap(), player.getPosition().getPositionX(), player.getPosition().getPositionY(), paint);
 
             // Change the brush color
             paint.setColor(Color.argb(255,  249, 129, 0));

@@ -18,27 +18,51 @@ public class Grid {
 
     int pixelWidth;
     int pixelHeight;
+    Pixel topRight;
+    Pixel topLeft;
+    Pixel bottomRight;
+    Pixel bottomLeft;
+    Pixel center;
+
+    public Pixel getCenter() {return center;}
+    public Pixel getTopRight(){return topRight;}
+    public Pixel getTopLeft(){return topLeft;}
+    public Pixel getbottomRight(){return bottomRight;}
+    public Pixel getBottomLeft(){return bottomLeft;}
+
+
 
     public int getPixelWidth(){return pixelWidth;}
     public int getPixelHeight(){return pixelHeight;}
 
-    public Grid(Context context, int screenX, int screenY)
+    public Grid(Context context, int screenX, int screenY, int viewPortX, int viewPortY)
     {
         float x = 40;
         float y = 20;
 
         int intX = (int) x;
         int intY = (int) y;
+
         grid  = new Pixel[intX][intY];
 
-        pixelWidth = screenX / intX;
-        pixelHeight = screenY / intY;
+        int centerX = intX / 2 - 1;
+        int centerY = intY / 2 - 1;
 
-        for (int i = 0; i < intX; i++)
+        int helperWidth = viewPortX * 2;
+        int helperHeight = viewPortY * 2;
+        pixelWidth = screenX / helperWidth;
+        pixelHeight = screenY / helperHeight;
+
+        int counterx = -1;
+        int countery = -1;
+
+        for (int i = centerX - viewPortX; i <= centerX + viewPortX; i++)
         {
-
-            for (int j = 0; j < intY; j++)
+            countery = -1;
+            counterx++;
+            for (int j = centerY + viewPortY; j >= centerY - viewPortY; j--)
             {
+                countery++;
                 Pixel pixel;
                 if (i == 0 && j == 0)
                 {
@@ -46,19 +70,27 @@ public class Grid {
                 }
                 else if (i == 0)
                 {
-                    pixel = new Pixel(context, 0, screenY / intY * j, pixelWidth, pixelHeight);
+                    pixel = new Pixel(context, 0, screenY / helperHeight * countery, pixelWidth, pixelHeight);
                 }
                 else if (j == 0)
                 {
-                    pixel = new Pixel(context, screenX /intX * i, 0, pixelWidth, pixelHeight);
+                    pixel = new Pixel(context, screenX /helperWidth * counterx, 0, pixelWidth, pixelHeight);
                 }
                 else
                 {
-                    pixel = new Pixel(context, screenX /intX * i, screenY / intY * j, pixelWidth, pixelHeight);
+                    pixel = new Pixel(context, screenX /helperWidth * counterx, screenY / helperHeight * countery, pixelWidth, pixelHeight);
                 }
                 grid[i][j] = pixel;
             }
         }
+
+        topRight = grid[centerX + viewPortX][centerY - viewPortY];
+        bottomRight = grid[centerX + viewPortX][centerY + viewPortY];
+
+        topLeft = grid[centerX - viewPortX][centerY - viewPortY];
+        bottomLeft = grid[centerX - viewPortY][centerY + viewPortY];
+
+        center = grid[centerX][centerY];
     }
 
     public Point GetIndexOfPixel(Pixel pixel)
