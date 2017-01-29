@@ -4,58 +4,77 @@ import android.content.Context;
 import android.graphics.Point;
 
 /**
- * Created by cool- on 1/16/2017.
+ * Class for Grid
  */
 
 public class Grid {
 
 
-    Pixel[][]grid;
-    public Pixel[][] getGrid()
-    {
-        return grid;
-    }
+    Pixel[][]grid;      // 2D array for grid
 
-    int pixelWidth;
-    int pixelHeight;
-    Pixel topRight;
+
+    int pixelWidth;     // How wide an individual pixel should be
+    int pixelHeight;    // How long an individual pixel should be
+
+    Pixel topRight;     // Store the pixels in the corners of the screen
     Pixel topLeft;
     Pixel bottomRight;
     Pixel bottomLeft;
-    Pixel center;
 
+    Pixel center;       // Store the center of the grid
+
+    // Properties
     public Pixel getCenter() {return center;}
     public Pixel getTopRight(){return topRight;}
     public Pixel getTopLeft(){return topLeft;}
     public Pixel getbottomRight(){return bottomRight;}
     public Pixel getBottomLeft(){return bottomLeft;}
-
-
-
+    public Pixel[][] getGrid()
+    {
+        return grid;
+    }
     public int getPixelWidth(){return pixelWidth;}
     public int getPixelHeight(){return pixelHeight;}
 
+    /**
+     * Constructor class for the grid
+     * @param context context
+     * @param screenX Screen's width
+     * @param screenY Screen's height
+     * @param viewPortX Camera's width
+     * @param viewPortY Camera's height
+     */
     public Grid(Context context, int screenX, int screenY, int viewPortX, int viewPortY)
     {
+        //How big the 2D grid should be
         float x = 40;
         float y = 20;
 
+        //convert to ints (may delete this)
         int intX = (int) x;
         int intY = (int) y;
 
+        //initialize 2D grid
         grid  = new Pixel[intX][intY];
 
+
+        //Get center of grid (starting point)
         int centerX = intX / 2 - 1;
         int centerY = intY / 2 - 1;
 
+        // Calculate how big a single pixel should be
         int helperWidth = viewPortX * 2;
         int helperHeight = viewPortY * 2;
         pixelWidth = screenX / helperWidth;
         pixelHeight = screenY / helperHeight;
 
+        // Used to space out pixels evenly across screen
         int counterx = -1;
         int countery = -1;
 
+        //TODO Make individual for loops that branch from center pixel so player is at center of screen
+
+        // Grid construction - generate columns and rows of pixels
         for (int i = centerX - viewPortX; i <= centerX + viewPortX; i++)
         {
             countery = -1;
@@ -64,6 +83,8 @@ public class Grid {
             {
                 countery++;
                 Pixel pixel;
+
+                // Place pixels based on position in graph
                 if (i == 0 && j == 0)
                 {
                     pixel = new Pixel(context, 0, 0, pixelWidth, pixelHeight);
@@ -84,6 +105,7 @@ public class Grid {
             }
         }
 
+        // Store corner and center pixels
         topRight = grid[centerX + viewPortX][centerY - viewPortY];
         bottomRight = grid[centerX + viewPortX][centerY + viewPortY];
 
@@ -93,6 +115,11 @@ public class Grid {
         center = grid[centerX][centerY];
     }
 
+    /**
+     * Get what index a pixel is located at in the graph since Java doesn't have this implemented already wtf
+     * @param pixel what pixel to find the index of
+     * @return point in graph
+     */
     public Point GetIndexOfPixel(Pixel pixel)
     {
         if (grid != null)

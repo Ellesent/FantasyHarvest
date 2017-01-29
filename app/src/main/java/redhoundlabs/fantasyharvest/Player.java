@@ -25,9 +25,13 @@ public class Player {
         return position;
     }
 
+    public void setPosition(Pixel value)
+    {
+        this.position = value;
+    }
+
     public float getBottomMiddle() {return bottomMiddle;}
 
-    public int getHeight(){return height;}
 
     public Player(Context context, Pixel startPosition, int length, int height)
     {
@@ -40,12 +44,12 @@ public class Player {
         bottomMiddle = length / 2;
 
         bitmap = Bitmap.createScaledBitmap(bitmap, this.length, this.height, false);
-
-
     }
 
     public void Update()
-    {}
+    {
+        // TODO move player based on touch
+    }
 
 
 }

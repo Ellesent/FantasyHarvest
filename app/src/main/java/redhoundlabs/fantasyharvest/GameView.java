@@ -9,6 +9,10 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+/***
+ * Class for the view of the game - takes care of updating, drawing, etc.
+ */
+
 public class GameView extends SurfaceView implements Runnable {
 
     Context context;
@@ -40,11 +44,14 @@ public class GameView extends SurfaceView implements Runnable {
     private int screenX;
     private int screenY;
 
+    // width and height of grid
     int gridWidth;
     int gridHeight;
 
+    // Instance of grid class
     Grid grid;
 
+    // Instance of player class
     Player player;
 
     // When the we initialize (call new()) on gameView
@@ -53,7 +60,6 @@ public class GameView extends SurfaceView implements Runnable {
 
         // The next line of code asks the
         // SurfaceView class to set up our object.
-        // How kind.
         super(context);
 
         // Make a globally available copy of the context so we can use it in another method
@@ -63,17 +69,17 @@ public class GameView extends SurfaceView implements Runnable {
         ourHolder = getHolder();
         paint = new Paint();
 
+        // Save width and height of screen
         screenX = x;
         screenY = y;
 
-
-
+        // Initialize grid class as well as store the width and height of the grid
         grid = new Grid(context,screenX, screenY, 6, 6);
         gridWidth = grid.getGrid().length;
         gridHeight = grid.getGrid()[0].length;
 
+        //Initialize the player class
         player = new Player(context, grid.getCenter(), grid.getPixelWidth(), grid.getPixelHeight() * 2);
-
     }
 
     public void run() {
@@ -97,22 +103,15 @@ public class GameView extends SurfaceView implements Runnable {
             if (timeThisFrame >= 1) {
                 fps = 1000 / timeThisFrame;
             }
-
-            // We will do something new here towards the end of the project
-
         }
     }
 
     private void update() {
 
-        // Move the player's ship
-
-        // Update the invaders if visible
-
-        // Update all the invaders bullets if active
-
-        // Did an invader bump into the edge of the screen
+        // TODO Make update method for player and call here
+        // TODO Make update method for grid? and call here - used for camera
     }
+
     private void draw(){
         // Make sure our drawing surface is valid or we crash
         if (ourHolder.getSurface().isValid()) {
@@ -123,19 +122,28 @@ public class GameView extends SurfaceView implements Runnable {
             // Draw the background color
             canvas.drawColor(Color.argb(255, 26, 128, 182));
 
-            // Choose the brush color for drawing
-            paint.setColor(Color.argb(255,  255, 255, 255));
-
-           //draw stuff
+            //TODO Make individual for loops that branch from center pixel so player is at center of screen
             for (int i = grid.GetIndexOfPixel(grid.topLeft).x; i <= grid.GetIndexOfPixel(grid.topRight).x; i++)
             {
                 for (int j = grid.GetIndexOfPixel(grid.bottomRight).y; j >= grid.GetIndexOfPixel(grid.topRight).y; j--)
                 {
+                    // TEMPORARY - Used to make sure Player position is correct pixel in grid - for now just make it transparent
+                    if (grid.getGrid()[i][j] == player.getPosition())
+                    {
+                        paint.setColor(Color.argb(0,255,0,0));
+
+                    }
+                    else
+                    {
+                        paint.setColor(Color.argb(255,  255, 255, 255));
+                    }
                     canvas.drawBitmap(grid.getGrid()[i][j].getBitmap(),grid.getGrid()[i][j].getPositionX(),grid.getGrid()[i][j].getPositionY(), paint);
                 }
             }
 
-            canvas.drawBitmap(player.getBitmap(), player.getPosition().getPositionX(), player.getPosition().getPositionY(), paint);
+            //TEMPORARY - Make Player semi-transparent in order to see pixels underneath player
+            paint.setColor(Color.argb(100,255,255,255));
+            canvas.drawBitmap(player.getBitmap(), player.getPosition().getPositionX(), player.getPosition().getPositionY() - player.getBottomMiddle(), paint);
 
             // Change the brush color
             paint.setColor(Color.argb(255,  249, 129, 0));
@@ -146,7 +154,7 @@ public class GameView extends SurfaceView implements Runnable {
         }
     }
 
-    // If SpaceInvadersActivity is paused/stopped
+    // If Activity is paused/stopped
     // shutdown our thread.
     public void pause() {
         playing = false;
@@ -158,7 +166,7 @@ public class GameView extends SurfaceView implements Runnable {
 
     }
 
-    // If SpaceInvadersActivity is started then
+    // If Activity is started then
     // start our thread.
     public void resume() {
         playing = true;
