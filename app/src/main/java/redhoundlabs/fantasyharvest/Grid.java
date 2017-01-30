@@ -47,8 +47,8 @@ public class Grid {
     public Grid(Context context, int screenX, int screenY, int viewPortX, int viewPortY)
     {
         //How big the 2D grid should be
-        float x = 40;
-        float y = 20;
+        float x = 41;
+        float y = 21;
 
         //convert to ints (may delete this)
         int intX = (int) x;
@@ -59,11 +59,11 @@ public class Grid {
 
 
         //Get center of grid (starting point)
-        int centerX = intX / 2 - 1;
-        int centerY = intY / 2 - 1;
+        int centerX = intX / 2;
+        int centerY = intY / 2;
 
         // Calculate how big a single pixel should be
-        int helperWidth = viewPortX * 2;
+        int helperWidth = viewPortX * 2 + 1;
         int helperHeight = viewPortY * 2;
         pixelWidth = screenX / helperWidth;
         pixelHeight = screenY / helperHeight;
@@ -71,8 +71,6 @@ public class Grid {
         // Used to space out pixels evenly across screen
         int counterx = -1;
         int countery = -1;
-
-        //TODO Make individual for loops that branch from center pixel so player is at center of screen
 
         // Grid construction - generate columns and rows of pixels
         for (int i = centerX - viewPortX; i <= centerX + viewPortX; i++)

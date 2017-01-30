@@ -122,7 +122,6 @@ public class GameView extends SurfaceView implements Runnable {
             // Draw the background color
             canvas.drawColor(Color.argb(255, 26, 128, 182));
 
-            //TODO Make individual for loops that branch from center pixel so player is at center of screen
             for (int i = grid.GetIndexOfPixel(grid.topLeft).x; i <= grid.GetIndexOfPixel(grid.topRight).x; i++)
             {
                 for (int j = grid.GetIndexOfPixel(grid.bottomRight).y; j >= grid.GetIndexOfPixel(grid.topRight).y; j--)
