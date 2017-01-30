@@ -3,6 +3,8 @@ package redhoundlabs.fantasyharvest;
 import android.content.Context;
 import android.graphics.Point;
 
+import java.util.List;
+
 /**
  * Class for Grid
  */
@@ -137,6 +139,81 @@ public class Grid {
         {
             throw new NullPointerException();
         }
+        return null;
+    }
+
+    /**
+     * Find pixel closest to given coordinates - used for converting touches to a pixel
+     * @param x x world coordinate
+     * @param y y world coordinate
+     * @return the Pixel closest to the given coordinates 
+     */
+    public Pixel worldToGrid(float x, float y)
+    {   
+        // store given world coordinates as ints
+        int xPosition = (int) x;
+        int yPosition = (int) y;
+        
+        // will be used to store the index of the pixel returned (this is an Integer because null needed to be stored
+        Integer indexI = null;
+        Integer indexJ = null;
+
+        //Store the last pixel's position that we found
+        int lastPixelPositionX = 0;
+        int lastPixelPositionY = 0;
+
+        // Iterate through grid
+        for (int i = GetIndexOfPixel(topLeft).x; i <= GetIndexOfPixel(topRight).x; i++)
+        {
+            for (int j = GetIndexOfPixel(bottomRight).y; j >= GetIndexOfPixel(topRight).y; j--)
+            {
+                //If the passed in coordinates match this pixel's position return the pixel
+                if ((int)grid[i][j].positionX == xPosition && (int)grid[i][j].positionY == yPosition)
+                {
+                    return grid[i][j];
+                }
+                else
+                {
+                    // Make a range based on a pixel's width and height and search for the nearest pixel
+                    for (int k = xPosition - pixelWidth; k <= pixelWidth + xPosition; k++)
+                    {
+
+                        if (k == (int)grid[i][j].getPositionX() && Math.abs(xPosition - k) < Math.abs(xPosition - lastPixelPositionX))
+                        {
+                            lastPixelPositionX = (int)grid[i][j].getPositionX();
+                            indexI =  new Integer(i);
+                            break;
+                        }
+                    }
+
+                    for (int m = yPosition - pixelHeight; m <= yPosition + pixelHeight; m++)
+                    {
+                        if (m == (int)grid[i][j].getPositionY() && Math.abs(yPosition - m) < Math.abs(yPosition - lastPixelPositionY))
+                        {
+                            lastPixelPositionY = (int)grid[i][j].getPositionY();
+                            indexJ = new Integer(j);
+                            break;
+                        }
+                    }
+
+                    }
+                }
+            }
+
+        //If at the end the indices for a pixel we found aren't null, then return a pixel else return null
+        if (indexI != null && indexJ != null)
+        {
+            return grid[indexI][indexJ];
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    public List<Pixel> searchPathPlayer(Pixel startPosition, Pixel endposition)
+    {
+        // TODO Actually create search algorithm
         return null;
     }
 

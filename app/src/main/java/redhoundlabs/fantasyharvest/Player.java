@@ -13,45 +13,40 @@ public class Player {
     int length;
     int height;
 
-    float bottomMiddle;
+    float halfSprite;
 
-    public Bitmap getBitmap()
-    {
+    public Bitmap getBitmap() {
         return bitmap;
     }
 
-    public Pixel getPosition()
-    {
+    public Pixel getPosition() {
         return position;
     }
 
-    public void setPosition(Pixel value)
-    {
+    public void setPosition(Pixel value) {
         this.position = value;
     }
 
-    public float getBottomMiddle() {return bottomMiddle;}
+    public float getHalfSprite() {
+        return halfSprite;
+    }
 
 
-    public Player(Context context, Pixel startPosition, int length, int height)
-    {
-        bitmap = BitmapFactory.decodeResource(context.getResources(),R.drawable.player);
+    public Player(Context context, Pixel startPosition, int length, int height) {
+        bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.player);
         position = startPosition;
 
         this.length = length;
         this.height = height;
 
-        bottomMiddle = length / 2;
+        //halfSprite = length / 2;
 
         bitmap = Bitmap.createScaledBitmap(bitmap, this.length, this.height, false);
+
+        halfSprite = bitmap.getHeight() / 2;
     }
 
-    public void Update()
-    {
+    public void Update() {
         // TODO move player based on touch
     }
-
-
 }
-
-

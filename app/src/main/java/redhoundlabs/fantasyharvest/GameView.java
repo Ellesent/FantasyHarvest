@@ -142,7 +142,7 @@ public class GameView extends SurfaceView implements Runnable {
 
             //TEMPORARY - Make Player semi-transparent in order to see pixels underneath player
             paint.setColor(Color.argb(100,255,255,255));
-            canvas.drawBitmap(player.getBitmap(), player.getPosition().getPositionX(), player.getPosition().getPositionY() - player.getBottomMiddle(), paint);
+            canvas.drawBitmap(player.getBitmap(), player.getPosition().getPositionX(), player.getPosition().getPositionY() - player.getHalfSprite(), paint);
 
             // Change the brush color
             paint.setColor(Color.argb(255,  249, 129, 0));
@@ -188,9 +188,12 @@ public class GameView extends SurfaceView implements Runnable {
 
             // Player has removed finger from screen
             case MotionEvent.ACTION_UP:
-
+                Pixel test = grid.worldToGrid(motionEvent.getX(),motionEvent.getY());
+                test.getPositionX();
                 break;
         }
         return true;
     }
+
+
 }
